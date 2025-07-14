@@ -1,26 +1,9 @@
-import { supabase } from '@/lib/supabaseClient';
-import React, { useEffect, useState } from 'react';
+import { useCourses } from '@/context/CoursesContext';
+import React from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 export default function CoursesScreen() {
-  const [courses, setCourses] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchCourses = async () => {
-    const { data, error } = await supabase.from('Cursuri').select('*');
-
-    if (error) {
-      console.error('Eroare Supabase:', error.message);
-    } else {
-      setCourses(data || []);
-    }
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchCourses();
-  }, []);
+  const { courses, loading } = useCourses();
 
   return (
     <View style={styles.container}>
